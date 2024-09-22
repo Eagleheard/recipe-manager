@@ -1,5 +1,4 @@
-'use client';
-
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -14,12 +13,14 @@ const signInSchema = z.object({
 type SignInData = z.infer<typeof signInSchema>;
 
 export const SignInForm = () => {
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const { register, handleSubmit, formState } = useForm<SignInData>({
     resolver: zodResolver(signInSchema),
   });
 
   const onSubmit = async (data: SignInData) => {
+    setError(null);
     const res = await signIn('credentials', {
       redirect: false,
       email: data.email,
@@ -29,7 +30,7 @@ export const SignInForm = () => {
     if (res && res.ok) {
       router.push('/');
     } else {
-      console.error('Failed to sign in:', res?.error);
+      setError(res?.error || 'Invalid credentials');
     }
   };
 
@@ -41,11 +42,9 @@ export const SignInForm = () => {
       <input {...register('password')} type="password" placeholder="Password" />
       {formState.errors.password && <p>{formState.errors.password.message}</p>}
 
-      <button type="submit">Sign In</button>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
 
-      <button type="button" onClick={() => signIn('google')}>
-        Sign In with Google
-      </button>
+      <button type="submit">Sign In</button>
     </form>
   );
 };

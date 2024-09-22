@@ -1,11 +1,12 @@
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
-import { authOptions } from './api/auth/[...nextauth]/route';
+import { authOptions } from './shared/config/nextAuthOptions';
+
 //import { RecipeList } from '@/features/recipe/ui/RecipeList';
 
 export default async function HomePage() {
   const session = await getServerSession(authOptions);
-
+  console.log(session)
   if (!session) {
     redirect('/sign-in');
   }

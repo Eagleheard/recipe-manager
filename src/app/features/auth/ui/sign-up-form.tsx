@@ -22,8 +22,8 @@ export const SignUpForm = () => {
 
   const onSubmit = async (data: SignUpData) => {
     try {
-      await axiosInstance.post('/auth/signup', data);
-      router.push('/signin');
+      await axiosInstance.post('/auth/sign-up', data);
+      router.push('/sign-in');
     } catch (error) {
       console.error('Failed to sign up:', error);
     }
