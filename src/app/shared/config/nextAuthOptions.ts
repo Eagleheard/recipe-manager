@@ -40,7 +40,6 @@ export const authOptions: NextAuthOptions = {
     callbacks: {
       async jwt({ token, user }) {
         if (user) {
-          token.id = user.id;
           token.email = user.email;
           token.name = user.name;
         }
@@ -58,9 +57,6 @@ export const authOptions: NextAuthOptions = {
         return session;
       },
     },
-    pages: {
-      signIn: '/sign-in',
-    },
     cookies: {
         sessionToken: {
           name: `next-auth.session-token`,
@@ -70,6 +66,9 @@ export const authOptions: NextAuthOptions = {
             path: '/',
           },
         },
+      },
+      pages: {
+        signIn: '/sign-in',
       },
   };
   

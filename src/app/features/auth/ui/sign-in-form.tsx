@@ -28,7 +28,7 @@ export const SignInForm = () => {
     });
 
     if (res && res.ok) {
-      router.push('/');
+      router.push('/recipes');
     } else {
       setError(res?.error || 'Invalid credentials');
     }

@@ -6,7 +6,7 @@ import { authOptions } from './shared/config/nextAuthOptions';
 
 export default async function HomePage() {
   const session = await getServerSession(authOptions);
-  console.log(session)
+
   if (!session) {
     redirect('/sign-in');
   }
