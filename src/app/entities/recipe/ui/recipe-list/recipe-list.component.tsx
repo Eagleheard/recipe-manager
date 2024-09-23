@@ -44,13 +44,16 @@ export const RecipeList = () => {
     return refetch()
   }
 
-  const allIngredients = (allRecipes ?? [])
-  .flatMap(recipe => recipe.ingredients ?? [])
-  .filter((ingredient, index, self) => self.indexOf(ingredient) === index);
-
-const allTags = (allRecipes ?? [])
-  .flatMap(recipe => recipe.tags ?? [])
-  .filter((tag, index, self) => self.indexOf(tag) === index);
+  const allIngredients = (allRecipes ?? []).reduce<string[]>((acc, recipe) => {
+    const ingredients = recipe.ingredients ?? [];
+    return acc.concat(ingredients);
+  }, []).filter((ingredient, index, self) => self.indexOf(ingredient) === index);
+  
+  const allTags = (allRecipes ?? []).reduce<string[]>((acc, recipe) => {
+    const tags = recipe.tags ?? [];
+    return acc.concat(tags);
+  }, []).filter((tag, index, self) => self.indexOf(tag) === index);
+  
 
 
   return (
