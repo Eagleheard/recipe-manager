@@ -32,8 +32,8 @@ export const RecipeList = () => {
 
   const { data: allRecipes = [], isLoading: isAllRecipesLoading } = useGetAllRecipes()
 
-  if (isLoading || isAllRecipesLoading) return <div>Loading...</div>
-  if (error) return <div>Error fetching recipes</div>
+  const allIngredients = uniq(allRecipes.flatMap((recipe) => recipe.ingredients))
+  const allTags = uniq(allRecipes.flatMap((recipe) => recipe.tags))
 
   const onSearch = (value: string) => {
     updateQueryParams({ ...queryParams, search: value })
@@ -41,20 +41,11 @@ export const RecipeList = () => {
 
   const clearFilters = () => {
     updateQueryParams({ search: '', ingredients: '', tags: '' })
-    return refetch()
+    return refetch() 
   }
 
-  const allIngredients = (allRecipes ?? []).reduce<string[]>((acc, recipe) => {
-    const ingredients = recipe.ingredients ?? [];
-    return acc.concat(ingredients);
-  }, []).filter((ingredient, index, self) => self.indexOf(ingredient) === index);
-  
-  const allTags = (allRecipes ?? []).reduce<string[]>((acc, recipe) => {
-    const tags = recipe.tags ?? [];
-    return acc.concat(tags);
-  }, []).filter((tag, index, self) => self.indexOf(tag) === index);
-  
-
+  if (isLoading || isAllRecipesLoading) return <div>Loading...</div>
+  if (error) return <div>Error fetching recipes</div>
 
   return (
     <div className="space-y-4">
