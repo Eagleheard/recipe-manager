@@ -12,17 +12,15 @@ model User {
   email    String   @unique
   password String
   name     String?
-  recipes  Recipe[]
 }
 
 model Recipe {
-  id          String   @id @default(uuid())
+  id          Int      @id @default(autoincrement())
   name        String
   description String
   ingredients String[]
   instructions String
-  image       String
   tags        String[]
-  userId      String
-  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

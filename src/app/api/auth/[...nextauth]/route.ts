@@ -1,7 +1,8 @@
-import { authOptions } from '@/app/shared/config/nextAuthOptions';
-import NextAuth from 'next-auth';
+import NextAuth from 'next-auth'
 
-export const GET = NextAuth(authOptions);
-export const POST = NextAuth(authOptions);
+import { authOptions } from 'app/shared/config/nextAuthOptions'
 
-export default NextAuth(authOptions);
+export const GET = NextAuth(authOptions)
+export const POST = NextAuth(authOptions)
+
+export default NextAuth(authOptions)

@@ -1,20 +1,23 @@
-import { getServerSession } from 'next-auth';
-import { redirect } from 'next/navigation';
-import { authOptions } from './shared/config/nextAuthOptions';
+import { redirect } from 'next/navigation'
+import { getServerSession } from 'next-auth'
 
-//import { RecipeList } from '@/features/recipe/ui/RecipeList';
+import RecipesPage from './recipes/page'
+import { authOptions } from './shared/config/nextAuthOptions'
+import HeaderComponent from './shared/ui/header/header.component'
 
 export default async function HomePage() {
-  const session = await getServerSession(authOptions);
-  console.log(session)
+  const session = await getServerSession(authOptions)
+
   if (!session) {
-    redirect('/sign-in');
+    redirect('/sign-in')
   }
 
   return (
     <div>
-      <h1>Welcome, {session.user?.name || session.user?.email}!</h1>
-      {/* <RecipeList /> */}
+      <HeaderComponent session={session} />
+      <main className="p-4">
+        <RecipesPage />
+      </main>
     </div>
-  );
+  )
 }
