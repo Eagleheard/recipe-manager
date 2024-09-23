@@ -1,14 +1,14 @@
 'use client'
 
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@radix-ui/react-select'
 import { uniq } from 'lodash'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 import { useRecipes, useGetAllRecipes } from '../../api/recipe.hook'
 
 import { useQueryParams } from 'app/shared/hooks/query-params.hook'
 import { Button } from 'components/ui/button'
 import { Input } from 'components/ui/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'components/ui/select'
 
 export const RecipeList = () => {
   const { queryParams, updateQueryParams } = useQueryParams({
@@ -17,7 +17,7 @@ export const RecipeList = () => {
     tags: String,
   })
 
-  const router = useRouter() // Initialize router
+  const router = useRouter()
 
   const {
     data: recipes = [],
@@ -41,6 +41,7 @@ export const RecipeList = () => {
 
   const clearFilters = () => {
     updateQueryParams({ search: '', ingredients: '', tags: '' })
+    return refetch()
   }
 
   const allIngredients = uniq(allRecipes.flatMap((recipe) => recipe.ingredients))
@@ -108,7 +109,6 @@ export const RecipeList = () => {
             <p>{recipe.description}</p>
             <p>{recipe.ingredients.join(', ')}</p>
             <p>{recipe.tags.join(', ')}</p>
-            {/* Add a button to navigate to the recipe detail page */}
             <Button onClick={() => router.push(`/recipes/${recipe.id}`)}>View Recipe</Button>
           </div>
         ))}

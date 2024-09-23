@@ -1,10 +1,11 @@
 'use client'
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
+
 import { redirect } from 'next/navigation'
 import { Session } from 'next-auth'
 import { signOut } from 'next-auth/react'
 
 import { Button } from 'components/ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from 'components/ui/dropdown-menu'
 
 export default async function HeaderComponent({ session }: { session: Session }) {
   if (!session) {
@@ -26,7 +27,6 @@ export default async function HeaderComponent({ session }: { session: Session })
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem
-            className="bg-gray-200 cursor-pointer hover:bg-gray-300"
             onClick={handleLogout}
           >
             Log out
