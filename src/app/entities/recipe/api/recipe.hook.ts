@@ -1,45 +1,50 @@
-import { QueryKey } from "@/app/shared/api/constants/query-key.enum";
-import { useQuery, useQueryClient, useMutation } from "react-query";
-import { fetchRecipes, fetchRecipeById, createRecipe, updateRecipe, deleteRecipe } from "./recipe.api";
+import { useQuery, useQueryClient, useMutation } from 'react-query'
 
+import { CreateOneRecipeDto } from './dtos/create-recipe.dto'
+import { GetRecipesQueryParams } from './interfaces/get-recipes-query-params.interface'
+import { fetchRecipes, fetchRecipeById, createRecipe, updateRecipe, deleteRecipe } from './recipe.api'
 
-export const useRecipes = (filters: any) => {
-    return useQuery([QueryKey.Recipes], async () => await fetchRecipes(filters));
-  };
+import { QueryKey } from 'app/shared/api/constants/query-key.enum'
 
-  export const useGetAllRecipes = () => {
-    return useQuery([QueryKey.AllRecipes], async () => await fetchRecipes());
-  };
-  
-  export const useRecipe = (id: number) => {
-    return useQuery([QueryKey.Recipe, {id}], () => fetchRecipeById(id));
-  };
-  
-  export const useCreateRecipe = () => {
-    const queryClient = useQueryClient();
-    return useMutation(createRecipe, {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['recipes']);
-      },
-    });
-  };
-  
-  export const useUpdateRecipe = (id: number) => {
-    const queryClient = useQueryClient();
-    return useMutation((data: any) => updateRecipe(id, data), {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['recipes']);
-        queryClient.invalidateQueries(['recipe', id]);
-      },
-    });
-  };
-  
-  export const useDeleteRecipe = () => {
-    const queryClient = useQueryClient();
-    return useMutation(deleteRecipe, {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['recipes']);
-      },
-    });
-  };
-  
+export const useRecipes = (filters: GetRecipesQueryParams) => {
+  return useQuery([QueryKey.Recipes], async () => await fetchRecipes(filters))
+}
+
+export const useGetAllRecipes = () => {
+  return useQuery([QueryKey.AllRecipes], async () => await fetchRecipes())
+}
+
+export const useGetRecipeById = (id: string) => {
+  return useQuery([QueryKey.Recipe, { id }], async () => await fetchRecipeById(id))
+}
+
+export const useCreateRecipe = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation(createRecipe, {
+    onSuccess: () => {
+      queryClient.invalidateQueries([QueryKey.Recipes])
+    },
+  })
+}
+
+export const useUpdateRecipe = (id: string) => {
+  const queryClient = useQueryClient()
+
+  return useMutation(async (data: CreateOneRecipeDto) => await updateRecipe(id, data), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(QueryKey.Recipes)
+      queryClient.invalidateQueries([QueryKey.Recipe, id])
+    },
+  })
+}
+
+export const useDeleteRecipe = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation(async (id: string) => await deleteRecipe(id), {
+    onSuccess: () => {
+      queryClient.invalidateQueries([QueryKey.Recipes])
+    },
+  })
+}

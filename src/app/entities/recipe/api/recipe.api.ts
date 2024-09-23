@@ -1,26 +1,41 @@
-import axiosInstance from '@/app/shared/api/axiosInstanse';
+import { RecipeModel } from '../model/recipe.model'
+import { CreateOneRecipeDto } from './dtos/create-recipe.dto'
+import { GetRecipesQueryParams } from './interfaces/get-recipes-query-params.interface'
 
-export const fetchRecipes = async (filters?: any) => {
-  const response = await axiosInstance.get<any>('/recipes', { params: filters });
-  return response.data;
-};
+import axiosInstance from 'app/shared/api/axiosInstanse'
 
-export const fetchRecipeById = async (id: number) => {
-  const response = await axiosInstance.get(`/recipes/${id}`);
-  return response.data;
-};
+export const fetchRecipes = async (filters?: GetRecipesQueryParams) => {
+  const response = await axiosInstance.get<RecipeModel[]>('/recipes', {
+    params: filters,
+  })
 
-export const createRecipe = async (data: any) => {
-  const response = await axiosInstance.post('/recipes', data);
-  return response.data;
-};
+  return response.data
+}
 
-export const updateRecipe = async (id: number, data: any) => {
-  const response = await axiosInstance.put(`/recipes/${id}`, data);
-  return response.data;
-};
+export const fetchRecipeById = async (id: string) => {
+  const response = await axiosInstance.get<RecipeModel>(`/recipes/${id}`)
 
-export const deleteRecipe = async (id: number) => {
-  const response = await axiosInstance.delete(`/recipes/${id}`);
-  return response.data;
-};
+  return response.data
+}
+
+export const createRecipe = async (data: CreateOneRecipeDto) => {
+  const response = await axiosInstance.post<RecipeModel>('/recipes', data)
+
+  return response.data
+}
+
+export const updateRecipe = async (id: string, data: CreateOneRecipeDto) => {
+  const response = await axiosInstance.put<RecipeModel>(`/recipes/${id}`, data)
+
+  return response.data
+}
+
+export const deleteRecipe = async (id: string) => {
+  try {
+    const { data } = await axiosInstance.delete(`/recipes/${id}`)
+
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}

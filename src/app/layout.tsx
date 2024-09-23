@@ -1,10 +1,10 @@
-"use client";
+'use client'
 
-import { ReactNode } from 'react';
-import './globals.css';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactNode } from 'react'
+import './globals.css'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient()
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -13,5 +13,5 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
       </body>
     </html>
-  );
+  )
 }

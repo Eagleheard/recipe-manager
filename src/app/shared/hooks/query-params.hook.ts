@@ -54,7 +54,7 @@ export const useQueryParams = <Shape extends QueryShape>(shape?: Shape, defaults
 
   const removeQueryParam = useCallback((value: keyof Shape | string) => {
     setQueryParamsState((prev) => {
-     // @ts-ignore
+      //@ts-expect-error
       return removeEmptyValues(omitBy(prev, value))
     })
   }, [])
@@ -64,7 +64,12 @@ export const useQueryParams = <Shape extends QueryShape>(shape?: Shape, defaults
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queryParamsState])
 
-  return { updateQueryParams, setQueryParams, queryParams: queryParamsState, removeQueryParam }
+  return {
+    updateQueryParams,
+    setQueryParams,
+    queryParams: queryParamsState,
+    removeQueryParam,
+  }
 }
 
 function removeEmptyValues<Shape extends QueryShape>(values: QueryValues<Shape>): QueryValues<Shape> {
