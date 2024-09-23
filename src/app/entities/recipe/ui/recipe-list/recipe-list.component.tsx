@@ -44,8 +44,14 @@ export const RecipeList = () => {
     return refetch()
   }
 
-  const allIngredients = uniq((allRecipes ?? []).flatMap((recipe) => recipe.ingredients ?? []))
-  const allTags = uniq((allRecipes ?? []).flatMap((recipe) => recipe.tags ?? []))  
+  const allIngredients = (allRecipes ?? [])
+  .flatMap(recipe => recipe.ingredients ?? [])
+  .filter((ingredient, index, self) => self.indexOf(ingredient) === index);
+
+const allTags = (allRecipes ?? [])
+  .flatMap(recipe => recipe.tags ?? [])
+  .filter((tag, index, self) => self.indexOf(tag) === index);
+
 
   return (
     <div className="space-y-4">
