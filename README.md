@@ -28,12 +28,6 @@ A database (e.g., PostgreSQL, MySQL) with Prisma configured.
 Installation
 Clone the repository:
 
-bash
-Copy code
-git clone https://github.com/yourusername/recipe-management-app.git
-Install dependencies:
-
-bash
 Copy code
 cd recipe-management-app
 npm install
@@ -66,8 +60,7 @@ GitHub Pages
 For deployment instructions, follow the respective platform guides.
 
 Demo
-You can view the deployed app at: https://your-deployed-app-url.com
-
+You can view the deployed app at: https://recipe-manager-git-develop-eagleheards-projects.vercel.app/
 Code Quality
 This project includes:
 
